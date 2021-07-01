@@ -18,11 +18,14 @@ from django.urls import path, include
 from todolist.views import todoview
 from django.conf import settings
 from django.conf.urls.static import static
+from django.conf.urls import url
+from django.views.generic.base import RedirectView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', todoview, name='index'),
     path('', include('todolist.urls')),
-    path('', include('account.urls'))
+    path('', include('account.urls')),
+    url(r'^favicon\.ico$', RedirectView.as_view(url='/static/favicon.ico', permanent=True))
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
