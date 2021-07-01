@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block styles %}
+<style>
+    label{
+        color: #f9a825; 
+    }
+    span{
+        color: #f9a825; 
+    }
+    input { 
+     color: #ffeb3b; 
+    };
+</style>
+{% endblock %}
+
+{% block title %} Signup {% endblock %}
+
+{% block content %}
+
+    <h3 style="color: #f9a825;">Регистрация</h3>
+    {% if forms %}
+    <form class="center" action="" method="POST" style="color: #ffeb3b;">
+        {% csrf_token %}
+        {{forms}}
+        <br><br><br>
+        <input type="submit" name="submit" value="Регистрация" class="btn btn-large pulse yellow accent-3" style="color: #424242;">
+    </form>
+    {% endif %}
+
+{% endblock %}

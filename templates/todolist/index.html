@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block styles %}
+<style>
+    label{
+        color: #f9a825; 
+    }
+    span{
+        color: #f9a825; 
+    }
+    input { 
+     color: #ffeb3b; 
+    };
+</style>
+{% endblock %}
+
+{% block title %} Главная {% endblock %}
+
+{% block content %}
+
+
+
+{% if user.is_authenticated %}
+
+<h2 style="color: #f9a825;">Список дел: Добавить</h2>
+
+    <form action="{% url 'todolist:todoview' %}" class="center" method="POST">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col s8 input-field">
+                <label for="title" style="color: #f9a825;"><b>Название</b></label>
+                <input type="text" name="title" maxlength="50" style="color: #ffeb3b;">
+            </div>
+            <div class="col s8 input-field">    
+                <label for="text" style="color: #f9a825;"><b>Описание</b></label>
+                <input type="text" name="text" maxlength="255" style="color: #ffeb3b;">
+            </div>
+            <div class="col s4">
+                <button class="btn-floating btn-large waves-effect waves-light yellow pulse" type="submit"><i class="material-icons" style="color: #424242;">add</i></button>
+            </div>
+        </div>
+    </form>
+    <br>
+    <br>
+
+    {% if todo_list %}
+
+        <div class="center">
+            <table class="highlight centered responsive-table"style="color: #f9a825;">
+                <thead>
+                    <tr>
+                        <th><center>Задача</center></th>
+                        <th><center>Описание</center></th>
+                        <th><center>Статус</center></th>
+                        <th><center>Удалить</center></th>
+                    </tr>
+                </thead>
+                <tbody style="color: #ffeb3b;">
+                    {% for i in todo_list %}
+                        {% if i.status %}
+                        <tr>
+                            <td style="text-decoration: line-through; text-decoration-color: #ffeb3b"><center>{{ i.title }}</center></td>
+                            <td style="text-decoration: line-through; word-break: break-all; text-decoration-color: #ffeb3b"><center>{{ i.text }}</center></td>
+                            <td><center><a href="{% url 'todolist:checkoff' i.id %}" style="color: aliceblue;"><button class="btn-floating waves-effect waves-light yellow accent-4"><i class="material-icons" style="color: #424242;">refresh</i></button></a></center></td>
+                            <td><center><a href="{% url 'todolist:delete' i.id %}" style="color: aliceblue;"><button class="btn-floating waves-effect waves-light yellow accent-4"><i class="material-icons" style="color: #424242;">delete</i></button></a></center></td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td><center>{{ i.title }}</center></td>
+                            <td style="word-break: break-all"><center>{{ i.text }}</center></td>
+                            <td><center><a href="{% url 'todolist:checkon' i.id %}"><button class="btn-floating waves-effect waves-light yellow accent-4"><i class="material-icons" style="color: #424242;">check</i></button></a></center></td>
+                            <td><center><a href="{% url 'todolist:delete' i.id %}"><button class="btn-floating waves-effect waves-light yellow accent-4"><i class="material-icons" style="color: #424242;">delete</i></button></a></center></td>
+                        </tr>
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    {% endif %}
+{% else %}
+<h2 style="color: #f9a825;">Авторизация</h2>
+
+        {% if login_forms %}
+            <form class="center" action="{% url 'account:login' %}" method="POST">
+                {% csrf_token %}
+                {{login_forms}}
+                <input type="submit" name="login" value="Авторизация" class="btn  yellow accent-3" style="color: #424242;">
+            </form>
+        {% endif %}
+
+{% endif %}
+{% endblock %}

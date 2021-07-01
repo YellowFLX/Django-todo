@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title %} {% endblock %} - Список дел</title>
+    {% block styles %} {% endblock %}
+</head>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+<body class="grey darken-3">
+    <nav class="grey darken-4">
+        <div class="nav-wraper">
+            <div class="brand-logo"style="color: #f9a825;"><i class="material-icons" style="font-size: xx-large; padding-top: 10px; padding-left: 5px; margin-right: 5px;">checklist</i><span class="flow-text" >Список дел</span></div>
+            <a href="" class="sidenav-trigger" data-target="mobile-links">
+                <i class="material-icons">menu</i>
+            </a>
+            <ul class="right hide-on-med-and-down">
+                <li class="z-depth-1"><a href="{% url 'todolist:todoview' %}" class ="yellow accent-4" style="color: #424242;">Главная</a></li>
+                <li class="z-depth-1"><a href="{% url 'todolist:about' %}" class ="yellow accent-4" style="color: #424242;">Обо мне</a></li>
+                {% if user.is_authenticated %}
+                <li class="z-depth-1"><a href="{% url 'account:logout' %}" class ="yellow accent-4" style="color: #424242;">Выход</a></li>
+                {% else %}
+                <li class="z-depth-1"><a href="{% url 'account:signup' %}" class ="yellow accent-4" style="color: #424242;">Регистрация</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+    <ul class="sidenav yellow accent-4" id="mobile-links">
+        <li class=""><a href="{% url 'todolist:todoview' %}" style="color: #424242;">Home</a></li>
+        <li class=""><a href="{% url 'todolist:about' %}" style="color: #424242;">About</a></li>
+        {% if user.is_authenticated %}
+        <li class=""><a href="{% url 'account:logout' %}" style="color: #424242;">Logout</a></li>
+        {% else %}
+        <li class=""><a href="{% url 'account:signup' %}" style="color: #424242;">Signup</a></li>
+        {% endif %}
+    </ul>
+    <div class="container">
+        <br>
+        <br>
+        <br>
+        {% block content %}
+
+        {% endblock %}
+    </div>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+<script>
+    var elem = document.querySelector('.sidenav');
+    var instance = new M.Sidenav(elem);
+    $(document).ready(function(){
+        $('.sidenav').sidenav();
+    });
+</script>
+</html>
